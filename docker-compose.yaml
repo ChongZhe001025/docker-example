@@ -1,0 +1,22 @@
+services:
+  nginx:   
+    image: nginx:latest
+    container_name: nginx       
+    restart: always             
+    volumes:                    
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf              
+      - ./nginx/html:/usr/share/nginx/html                         
+      - ./nginx/logs:/var/log/nginx                                
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf 
+    ports:
+      - 80:80 
+    depends_on:
+      - nodejs
+
+  nodejs:
+    build: ./node
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./node/www:/usr/src/app/www
+      - ./node/server.js:/usr/src/app/server.js
